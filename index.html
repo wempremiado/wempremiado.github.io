@@ -88,7 +88,7 @@ nav a:hover{color:var(--ink)}
 .toggle:hover{border-color:var(--hot)}
 .toggle svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .hero{padding:64px 0 56px}
-.hero h1{font-size:clamp(34px,7.4vw,88px);font-weight:800;letter-spacing:-.035em;overflow-wrap:anywhere}
+.hero h1{font-size:clamp(32px,4.8vw,64px);font-weight:800;letter-spacing:-.035em;overflow-wrap:anywhere}
 .hero .claim{margin-top:24px;font-family:"Unbounded",sans-serif;font-weight:600;font-size:clamp(18px,2.6vw,28px);max-width:26ch;line-height:1.25;color:var(--hot)}
 .hero .role{margin-top:18px;font-size:clamp(17px,2.2vw,19px);max-width:54ch;color:var(--muted)}
 .hero .role strong{color:var(--ink);font-weight:600}
@@ -182,6 +182,15 @@ footer{padding:20px 0 max(20px,env(safe-area-inset-bottom));font-size:14px;color
   .ev{grid-template-columns:1fr auto}
   .ev time{display:none}
 }
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:36px;align-items:center}
+.stage{width:100%;max-width:400px;justify-self:end}
+#mapCanvas{display:block;width:100%;aspect-ratio:9.9/13.5;touch-action:pan-y;cursor:crosshair}
+.stage-stats{margin-top:8px;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;min-height:1.6em}
+.stage-note{font-size:13px;color:var(--muted)}
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:28px}
+  .stage{justify-self:center;max-width:340px}
+}
 @media (max-width:900px){
   .topo{grid-template-columns:1fr}
   .sheet{position:static}
@@ -233,12 +242,20 @@ footer{padding:20px 0 max(20px,env(safe-area-inset-bottom));font-size:14px;color
 
 <main>
 <div class="wrap hero">
+  <div class="hero-grid">
+  <div class="hero-text">
   <h1>Wilfredo<br>Empremiado</h1>
   <p class="claim">I turn daily manual checks into automated systems.</p>
   <p class="role">IT Assistant and L2 field support. I handle systems, network and helpdesk work, and I design and build automation tools that take repetitive checks off the team's hands.</p>
   <div class="btns">
     <a class="btn main" href="#projects">See the systems</a>
     <a class="btn alt" href="#contact">Get in touch</a>
+  </div>
+  <div class="stage">
+    <canvas id="mapCanvas" role="img" aria-label="Animated dot map of the Philippines showing a sample monitoring sweep"></canvas>
+    <p class="stage-stats" id="mapStats">Starting sweep...</p>
+    <p class="stage-note">Illustrative sweep, not real store locations. Tap an orange dot to fix it.</p>
+  </div>
   </div>
 
   <div class="live" aria-label="Illustrative live monitoring demo">
@@ -314,7 +331,7 @@ footer{padding:20px 0 max(20px,env(safe-area-inset-bottom));font-size:14px;color
     <h2>Experience</h2>
     <div class="job">
       <h3>Information Technology Assistant</h3>
-      <p class="meta">National retail chain, Philippines &bull; June 2024 to present</p>
+      <p class="meta">Alfamart Trading Philippines, Inc. &bull; June 2024 to present</p>
       <ul>
         <li>Maintain, upgrade and troubleshoot software, hardware and network infrastructure across multi-store operations.</li>
         <li>Administer user accounts, workstations, POS systems and IT equipment with security best practices.</li>
@@ -556,6 +573,193 @@ footer{padding:20px 0 max(20px,env(safe-area-inset-bottom));font-size:14px;color
       }
     },1100);
   }
+
+  var MAP_POLYS=[[[120.4,18.5],[121.2,18.6],[122.2,18.4],[122.4,17.3],[122.1,16.3],[121.6,15.4],[121.6,14.5],[122.1,14.2],[122.6,14.2],[123.2,13.9],[123.9,13.2],[124.2,12.7],[124.0,12.55],[123.4,12.9],[123.0,13.3],[122.4,13.5],[121.6,13.8],[121.2,13.6],[120.7,13.7],[120.6,14.2],[120.9,14.6],[120.6,14.8],[119.9,15.5],[119.9,16.2],[120.3,16.5],[120.35,17.6]],[[120.3,13.5],[121.5,13.5],[121.5,12.4],[121.0,12.2],[120.8,12.9]],[[117.2,8.3],[117.6,8.7],[119.5,10.6],[119.9,11.5],[120.4,11.3],[119.8,10.1],[117.7,8.1]],[[121.9,11.9],[122.9,11.7],[123.1,11.2],[122.6,10.6],[122.1,10.4],[121.9,10.9]],[[123.4,11.0],[123.5,10.3],[123.1,9.4],[122.9,9.0],[122.4,9.4],[122.5,10.4],[123.0,10.9]],[[124.0,11.3],[124.1,10.9],[123.6,10.0],[123.4,9.4],[123.2,9.5],[123.5,10.4],[123.8,11.2]],[[124.4,11.5],[125.0,11.3],[125.2,10.5],[125.0,10.0],[124.6,10.2],[124.3,10.8]],[[124.3,12.5],[125.4,12.6],[126.0,12.0],[125.6,11.2],[125.0,11.1],[124.5,11.6]],[[123.2,12.2],[123.6,12.6],[123.9,12.1],[123.5,11.8]],[[123.9,9.85],[124.2,10.2],[124.6,9.9],[124.3,9.6]],[[122.0,7.0],[122.2,8.0],[123.4,8.7],[124.6,8.6],[125.5,9.7],[126.2,8.8],[126.6,7.4],[126.2,6.4],[125.4,5.7],[124.9,6.1],[124.2,6.3],[123.4,7.2],[122.6,7.2]]];
+  var MAP_LON0=116.9,MAP_LON1=126.8,MAP_LAT0=5.4,MAP_LAT1=18.9;
+  var mapCanvas=document.getElementById("mapCanvas");
+  var mapCtx=mapCanvas.getContext("2d");
+  var mapStats=document.getElementById("mapStats");
+  var mapDots=[],mapW=0,mapH=0,mapR=2,mapCol={},mapSweep=0,mapSweeps=1;
+  var mapChecked=0,mapFlagged=0,mapFixed=0,mapLast=0,mapFrame=0,mapVisible=true;
+  var mapPtr={x:-999,y:-999};
+
+  function mapInPoly(x,y,p){
+    var c=false,j=p.length-1;
+    for(var i=0;i<p.length;i++){
+      var xi=p[i][0],yi=p[i][1],xj=p[j][0],yj=p[j][1];
+      if(((yi>y)!==(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))c=!c;
+      j=i;
+    }
+    return c;
+  }
+
+  function mapReadColors(){
+    var cs=getComputedStyle(root);
+    ["line","hot","ink","soft"].forEach(function(n){mapCol[n]=cs.getPropertyValue("--"+n).trim()});
+  }
+
+  function mapBuild(){
+    var rect=mapCanvas.getBoundingClientRect();
+    mapW=rect.width;
+    mapH=mapW*(MAP_LAT1-MAP_LAT0)/(MAP_LON1-MAP_LON0);
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    mapCanvas.width=Math.round(mapW*dpr);
+    mapCanvas.height=Math.round(mapH*dpr);
+    mapCtx.setTransform(dpr,0,0,dpr,0,0);
+    var step=mapW/40,row=0;
+    mapR=step*0.23;
+    mapDots=[];
+    for(var y=step/2;y<mapH;y+=step*0.866){
+      for(var x=step/2+(row%2?step/2:0);x<mapW;x+=step){
+        var lon=MAP_LON0+x/mapW*(MAP_LON1-MAP_LON0);
+        var lat=MAP_LAT1-y/mapH*(MAP_LAT1-MAP_LAT0);
+        for(var pi=0;pi<MAP_POLYS.length;pi++){
+          if(mapInPoly(lon,lat,MAP_POLYS[pi])){mapDots.push({x:x,y:y,s:0,t:0,c:false,life:0});break}
+        }
+      }
+      row++;
+    }
+  }
+
+  function mapFix(d,ts){
+    d.s=2;
+    d.t=ts;
+    mapFixed++;
+  }
+
+  function mapDraw(ts,animate){
+    var dt=mapLast?Math.min(ts-mapLast,50):16;
+    mapLast=ts;
+    if(animate){
+      mapSweep+=dt/7000;
+      if(mapSweep>1.12){
+        mapSweep=0;
+        mapSweeps++;
+        mapChecked=0;mapFlagged=0;mapFixed=0;
+        mapDots.forEach(function(d){d.c=false});
+      }
+    }
+    var sy=mapSweep*mapH,band=mapH*0.12;
+    mapCtx.clearRect(0,0,mapW,mapH);
+    for(var i=0;i<mapDots.length;i++){
+      var d=mapDots[i];
+      var r=mapR,a=0.34,col=mapCol.line;
+      if(animate&&!d.c&&d.y<sy){
+        d.c=true;
+        mapChecked++;
+        if(d.s===0&&Math.random()<0.03){d.s=1;d.t=ts;d.life=2400+Math.random()*2200;mapFlagged++}
+      }
+      var behind=sy-d.y;
+      if(animate&&behind>=0&&behind<band){
+        var k=1-behind/band;
+        a=0.34+0.66*k;
+        r=mapR*(1+0.5*k);
+        col=mapCol.ink;
+      }
+      var px=d.x-mapPtr.x,py=d.y-mapPtr.y,dist=Math.sqrt(px*px+py*py);
+      if(dist<46){
+        var f=1-dist/46;
+        r=Math.max(r,mapR*(1+1.5*f));
+        a=Math.max(a,0.45+0.55*f);
+        col=mapCol.ink;
+      }
+      if(d.s===1){
+        if(animate&&ts-d.t>d.life)mapFix(d,ts);
+        else{
+          col=mapCol.hot;a=1;
+          r=mapR*(1.6+(animate?0.5*Math.sin(ts/150):0));
+        }
+      }
+      if(d.s===2){
+        var e=ts-d.t;
+        if(e>800){d.s=0}
+        else{
+          mapCtx.globalAlpha=1-e/800;
+          mapCtx.strokeStyle=mapCol.hot;
+          mapCtx.lineWidth=1.5;
+          mapCtx.beginPath();
+          mapCtx.arc(d.x,d.y,mapR+e/800*mapR*5,0,6.2832);
+          mapCtx.stroke();
+          col=mapCol.ink;a=1;r=mapR*1.4;
+        }
+      }
+      mapCtx.globalAlpha=a;
+      mapCtx.fillStyle=col;
+      mapCtx.beginPath();
+      mapCtx.arc(d.x,d.y,r,0,6.2832);
+      mapCtx.fill();
+    }
+    if(animate&&sy<=mapH){
+      mapCtx.globalAlpha=0.7;
+      mapCtx.fillStyle=mapCol.hot;
+      mapCtx.fillRect(0,sy-1,mapW,2);
+    }
+    mapCtx.globalAlpha=1;
+    mapFrame++;
+    if(mapFrame%6===0||!animate){
+      mapStats.textContent="Sweep "+mapSweeps+": "+Math.min(mapChecked,mapDots.length)+" of "+mapDots.length+" checked, "+mapFlagged+" flagged, "+mapFixed+" fixed automatically";
+    }
+  }
+
+  function mapPointer(e){
+    var rect=mapCanvas.getBoundingClientRect();
+    mapPtr.x=e.clientX-rect.left;
+    mapPtr.y=e.clientY-rect.top;
+  }
+
+  mapCanvas.addEventListener("pointermove",mapPointer);
+  mapCanvas.addEventListener("pointerleave",function(){mapPtr.x=-999;mapPtr.y=-999});
+  mapCanvas.addEventListener("pointerdown",function(e){
+    mapPointer(e);
+    var best=null,bd=22;
+    mapDots.forEach(function(d){
+      if(d.s!==1)return;
+      var dx=d.x-mapPtr.x,dy=d.y-mapPtr.y,dd=Math.sqrt(dx*dx+dy*dy);
+      if(dd<bd){bd=dd;best=d}
+    });
+    if(best)mapFix(best,performance.now());
+    if(reduceMotion)mapDraw(performance.now(),false);
+  });
+
+  function mapStart(){
+    mapReadColors();
+    mapBuild();
+    if(reduceMotion){
+      for(var n=0;n<7;n++){
+        var d=mapDots[Math.floor(Math.random()*mapDots.length)];
+        d.s=1;d.c=true;mapFlagged++;
+      }
+      mapChecked=mapDots.length;
+      mapDraw(performance.now(),false);
+      return;
+    }
+    function loop(ts){
+      if(mapVisible&&!document.hidden){
+        if(mapFrame%30===0)mapReadColors();
+        mapDraw(ts,true);
+      }
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  }
+
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(en){mapVisible=en[0].isIntersecting}).observe(mapCanvas);
+  }
+  if("ResizeObserver" in window){
+    var mapPrevW=0;
+    new ResizeObserver(function(){
+      var w=mapCanvas.getBoundingClientRect().width;
+      if(Math.abs(w-mapPrevW)>2){
+        mapPrevW=w;
+        var wasSweep=mapSweep;
+        mapBuild();
+        mapDots.forEach(function(d){d.c=d.y<wasSweep*mapH});
+        if(reduceMotion)mapDraw(performance.now(),false);
+      }
+    }).observe(mapCanvas);
+  }
+  mapStart();
 })();
 </script>
 </body>
